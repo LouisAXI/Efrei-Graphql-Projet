@@ -16,6 +16,7 @@ import Language from './components/Language';
 import Repositories from './components/Repositories';
 import './styles/styles.scss'
 
+//Apollo client
 const httpLink = new HttpLink({
   uri: 'https://api.github.com/graphql',
 });
@@ -24,7 +25,7 @@ const authMiddleware = new ApolloLink(
   (operation, forward) => {
       operation.setContext({
           headers: {
-              authorization: 'bearer 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',
+              authorization: 'bearer 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',
           },
       });
 
@@ -39,12 +40,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-
+//Query de l'Api de graphql pour github
 const GITHUB_DATA_QUERY = gql`
 query {
     viewer {
         login
-        repositories(first: 6) {
+        repositories(first: 5) {
             totalCount
             pageInfo {
                 hasNextPage
@@ -85,6 +86,7 @@ query {
         }
         avatarUrl
         bio
+        location
     }
 }
 `;
@@ -98,11 +100,13 @@ function GitData() {
     return data;
 }
 
-
+//App qui remplace app.js
 function App() {
     const data = GitData();
+    if (!data.viewer)
+        return <></>
     return (
-        <div className="container-all">
+        <div>
             <Summary data={data}/>
             <Overview data={data}/>
             <Language data={data}/>
@@ -111,6 +115,7 @@ function App() {
     );
 }
 
+//Provider qui permet d'envoyé des donner a tous les composants enfants
 render(
     <ApolloProvider client={client}>
         <App />

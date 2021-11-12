@@ -1,0 +1,20 @@
+.overview{
+    position:absolute;
+    top: 220px;
+    left: 0;
+    right: 0;
+
+    .overview-container{
+        max-width: 730px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+
+        .overview-head{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+}
+
